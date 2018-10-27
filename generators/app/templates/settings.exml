@@ -8,15 +8,14 @@
 			<id>jhipster</id>
 			<properties>
 				<!-- dev -->
-				<spring.mail.port>25</spring.mail.port>
-				<spring.server.port>8080</spring.server.port>
-				<spring.logging.logstash.port>5000</spring.logging.logstash.port>
+				<mail.port>25</mail.port>
+				<server.port>8080</server.port>
+				<logging.logstash.port>5000</logging.logstash.port>
 				<h2.webport>8082</h2.webport>
 				<webpack.port>9060</webpack.port>
 				<browsersync.port>9000</browsersync.port>
 				<!-- tests -->
-				<server.port>10344</server.port>
-				<jhipster.logging.logstash.port>5000</jhipster.logging.logstash.port>
+				<test.server.port>10344</test.server.port>
 			</properties>
 		</profile>
 	</profiles>
