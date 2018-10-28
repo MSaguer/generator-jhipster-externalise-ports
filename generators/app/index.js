@@ -119,44 +119,50 @@ module.exports = class extends BaseGenerator {
 
         this.updatePom = function () {
             const pomFile = 'pom.xml';
-            let content = '$1';
-            content += '$2    <execution>';
-            content += '$2            <id>test-resources</id>';
-            content += '$2            <phase>generate-test-resources</phase>';
-            content += '$2            <goals>';
-            content += '$2                <goal>copy-resources</goal>';
-            content += '$2            </goals>';
-            content += '$2            <configuration>';
-            content += '$2                <outputDirectory>target/test-classes</outputDirectory>';
-            content += '$2                <useDefaultDelimiters>false</useDefaultDelimiters>';
-            content += '$2                <delimiters>';
-            content += '$2                    <delimiter>#</delimiter>';
-            content += '$2                </delimiters>';
-            content += '$2                <resources>';
-            content += '$2                    <resource>';
-            content += '$2                        <directory>src/test/resources/</directory>';
-            content += '$2                        <filtering>true</filtering>';
-            content += '$2                        <includes>';
-            content += '$2                            <include>config/*.yml</include>';
-            content += '$2                        </includes>';
-            content += '$2                    </resource>';
-            content += '$2                    <resource>';
-            content += '$2                        <directory>src/test/resources/</directory>';
-            content += '$2                        <filtering>false</filtering>';
-            content += '$2                        <excludes>';
-            content += '$2                            <exclude>config/*.yml</exclude>';
-            content += '$2                        </excludes>';
-            content += '$2                    </resource>';
-            content += '$2                </resources>';
-            content += '$2            </configuration>';
-            content += '$2        </execution>';
-            content += '$2$3';
+            let testResourceFiltering = '$1';
+            testResourceFiltering += '$2    <execution>';
+            testResourceFiltering += '$2            <id>test-resources</id>';
+            testResourceFiltering += '$2            <phase>generate-test-resources</phase>';
+            testResourceFiltering += '$2            <goals>';
+            testResourceFiltering += '$2                <goal>copy-resources</goal>';
+            testResourceFiltering += '$2            </goals>';
+            testResourceFiltering += '$2            <configuration>';
+            testResourceFiltering += '$2                <outputDirectory>target/test-classes</outputDirectory>';
+            testResourceFiltering += '$2                <useDefaultDelimiters>false</useDefaultDelimiters>';
+            testResourceFiltering += '$2                <delimiters>';
+            testResourceFiltering += '$2                    <delimiter>#</delimiter>';
+            testResourceFiltering += '$2                </delimiters>';
+            testResourceFiltering += '$2                <resources>';
+            testResourceFiltering += '$2                    <resource>';
+            testResourceFiltering += '$2                        <directory>src/test/resources/</directory>';
+            testResourceFiltering += '$2                        <filtering>true</filtering>';
+            testResourceFiltering += '$2                        <includes>';
+            testResourceFiltering += '$2                            <include>config/*.yml</include>';
+            testResourceFiltering += '$2                        </includes>';
+            testResourceFiltering += '$2                    </resource>';
+            testResourceFiltering += '$2                    <resource>';
+            testResourceFiltering += '$2                        <directory>src/test/resources/</directory>';
+            testResourceFiltering += '$2                        <filtering>false</filtering>';
+            testResourceFiltering += '$2                        <excludes>';
+            testResourceFiltering += '$2                            <exclude>config/*.yml</exclude>';
+            testResourceFiltering += '$2                        </excludes>';
+            testResourceFiltering += '$2                    </resource>';
+            testResourceFiltering += '$2                </resources>';
+            testResourceFiltering += '$2            </configuration>';
+            testResourceFiltering += '$2        </execution>';
+            testResourceFiltering += '$2$3';
             try {
                 jhipsterUtils.replaceContent({
                     file: pomFile,
                     pattern: /(<artifactId>maven-resources-plugin<\/artifactId>[\s\S]*?)(\s*)(<\/executions>)/m,
                     regex: true,
-                    content
+                    testResourceFiltering
+                }, this);
+                jhipsterUtils.replaceContent({
+                    file: pomFile,
+                    pattern: /<port>8080<\/port>/g,
+                    regex: true,
+                    content: '<port>\${server.port}</port>'
                 }, this);
             } catch (e) {
                 this.log(chalk.yellow('\nUnable to find ') + pomFile + chalk.yellow(' is not updated\n'));
